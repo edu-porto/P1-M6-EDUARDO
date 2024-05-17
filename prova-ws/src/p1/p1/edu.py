@@ -26,8 +26,8 @@ class TurtleBot(Node):
         stop_msg = Twist()
         self.publisher_.publish(stop_msg)
 
-    def forward(self, speed: float, duration: float):
-        self.move(Vector3(x=speed, y=0.0, z=0.0), Vector3(), duration=2000)
+    def forward(self, vx: float, vy:float, vtheta:float, tempo_em_ms: int):
+        self.move(Vector3(x=vx, y=vy, z=vtheta), Vector3(), duration=tempo_em_ms)
 
 
 
@@ -36,7 +36,14 @@ def deque_line():
     dq.append('1.0')
     dq.append('0')
     dq.append('1.0')
-    dq.append('2.2')
+    dq.append('2000')
+
+def deque_line2():
+    dq = deque()
+    dq.append('1.4')
+    dq.append('2.7')
+    dq.append('0.0')
+    dq.append('3500')
 
 
 
@@ -50,9 +57,14 @@ def main(args=None):
     robot = TurtleBot()
 
     first_run = deque_line()
+    rclpy.spin(robot)
 
-    # robot.forward(2.3, 3.0)
-    print(first_run)
+
+    robot.forward(0.0,2.3,0.0,2000)
+
+    rclpy.shutdown()
+
+
 
 if __name__ == "__main__":
     main()
